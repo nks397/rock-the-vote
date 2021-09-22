@@ -10,6 +10,9 @@ const issueSchema = new Schema({
         type: String,
         require: true
     },
+    comment: {
+        type: Array
+    },
     upvotes: {
         type: Number,
         default: 0
@@ -24,5 +27,6 @@ const issueSchema = new Schema({
         required: true
       }
 })
+
 
 module.exports = mongoose.model("Issue", issueSchema)

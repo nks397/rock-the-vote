@@ -5,7 +5,7 @@ const commentSchema = new Schema({
     comment: {
         type: String
     },
-    userId: {
+    user: {
         type: Schema.Types.ObjectId,
         ref: "User",
         required: true
@@ -17,8 +17,7 @@ const commentSchema = new Schema({
     issueId: {
         type: Schema.Types.ObjectId,
         ref: "Issue"
-    }
-    
+    } 
 })
 
 module.exports = mongoose.model("Comment", commentSchema)

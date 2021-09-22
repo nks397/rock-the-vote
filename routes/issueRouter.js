@@ -14,6 +14,20 @@ issueRouter.get("/", (req, res, next) => {
     
 })
 
+// Get By IssueId
+issueRouter.get('/:issueId', (req, res, next) => {
+    Issue.findById(req.params.issueId, (err, issue) => {
+      if (err) {
+        res.status(500)
+        return next(err)
+      } else if (!issue) {
+        res.status(404)
+        return next(new Error('No post item has been found.'))
+      }
+      return res.send(issue)
+    })
+  })
+
 // Get By User
 issueRouter.get("/user", (req, res, next) => {
     Issue.find({user: req.user._id}, (err, issues) => {
