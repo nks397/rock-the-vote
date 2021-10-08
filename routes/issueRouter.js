@@ -2,6 +2,7 @@ const express = require("express")
 const issueRouter = express.Router()
 const Issue = require("../models/Issue.js")
 
+
 // Get All
 issueRouter.get("/", (req, res, next) => {
     Issue.find((err, issues) =>{
@@ -14,21 +15,7 @@ issueRouter.get("/", (req, res, next) => {
     
 })
 
-// Get By IssueId
-issueRouter.get('/:issueId', (req, res, next) => {
-    Issue.findById(req.params.issueId, (err, issue) => {
-      if (err) {
-        res.status(500)
-        return next(err)
-      } else if (!issue) {
-        res.status(404)
-        return next(new Error('No post item has been found.'))
-      }
-      return res.send(issue)
-    })
-  })
-
-// Get By User
+// Get User Issues
 issueRouter.get("/user", (req, res, next) => {
     Issue.find({user: req.user._id}, (err, issues) => {
         if(err){
@@ -37,11 +24,27 @@ issueRouter.get("/user", (req, res, next) => {
         }
         return res.status(200).send(issues)
     })
+    
 })
+
+// Get By IssueId
+// issueRouter.get('/:issueId', (req, res, next) => {
+//     Issue.findById(req.params.issueId, (err, issue) => {
+//       if (err) {
+//         res.status(500)
+//         return next(err)
+//       } else if (!issue) {
+//         res.status(404)
+//         return next(new Error('No post item has been found.'))
+//       }
+//       return res.send(issue)
+//     })
+// })
 
 // Post
 issueRouter.post("/", (req, res, next) => {
     req.body.user = req.user._id
+    req.body.username = req.user.username
     const newIssue = new Issue(req.body)
     newIssue.save((err, savedIssue) => {
         if(err){

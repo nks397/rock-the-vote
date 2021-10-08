@@ -10,9 +10,17 @@ const issueSchema = new Schema({
         type: String,
         require: true
     },
-    comment: {
-        type: Array
+    username: {
+        type: String,
+        required: true
     },
+    // comment: {
+    //     type: Array
+    // },
+    // comment: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: "Comment",
+    // },
     upvotes: {
         type: Number,
         default: 0
@@ -25,7 +33,7 @@ const issueSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User",
         required: true
-      }
+    }
 })
 
 
