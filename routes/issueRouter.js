@@ -74,12 +74,12 @@ issueRouter.put("/:issueId", (req, res, next) => {
 
 // Delete
 issueRouter.delete("/:issueId", (req, res, next) => {
-    Issue.findOneAndDelete({_id: req.params.issueId, user: req.user._id}, (err) => {
+    Issue.findOneAndDelete({_id: req.params.issueId, user: req.user._id}, (err, deleteIssue) => {
         if(err){
             res.status(500)
             return next(err)
         }
-        return res.status(200).send(`Issue successfully deleted`)
+        return res.status(200).send(`Successfully deleted issue '${deleteIssue}' from the database`)
     })
 })
 
