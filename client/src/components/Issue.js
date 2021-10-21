@@ -16,7 +16,17 @@ function Issue(props) {
             <h3>Description: {description}</h3>
             <button onClick={()=>deleteIssue(_id)}>Delete</button>
             <button onClick={()=> setEditToggle(!editToggle)}>{!editToggle ? "Edit" : "Cancel"}</button>
-            {editToggle ? <div><IssueForm title={title} description={description} submit={updateIssue} btnText="Edit Issue"/></div> : null}
+            {editToggle ? 
+                <div>
+                    <IssueForm 
+                        title={title} 
+                        description={description} 
+                        submit={updateIssue} 
+                        btnText="Edit Issue"
+                    />
+                </div> : 
+                null
+            }
             <button><i className="fas fa-thumbs-up"></i></button>
             <button><i className="fas fa-thumbs-down"></i></button>
             <button onClick={()=> setCommentToggle(!commentToggle)}>Comments</button>
