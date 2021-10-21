@@ -4,7 +4,7 @@ import IssueList from "./IssueList"
 import {UserContext} from "../context/AuthProvider"
 
 function Profile() {
-    const { getUserIssues, addIssue, issues} = useContext(UserContext)
+    const { getUserIssues, addIssue, updateIssue, issues, user, _id} = useContext(UserContext)
 
 console.log(issues, "issuesProfile")
 
@@ -14,12 +14,10 @@ console.log(issues, "issuesProfile")
 
     return (
         <div>
-            {/* <h1>Welcome @{username}!</h1> */}
-            My Profile
-            <h3>Add Issue</h3>
-            <IssueForm addIssue={addIssue}/>
-
-            <h3>Your Issues</h3>
+            <h1 className="username">Welcome @{user.username}!</h1>
+            <h3 className="add-issue-title">Add Issue</h3>
+            <IssueForm submit={addIssue} btnText="Add Issue" _id={_id}/>
+            {/* <h3>Your Issues</h3> */}
             <IssueList issues={issues}/>
         </div>
     )

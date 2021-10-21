@@ -12,7 +12,7 @@ function Public(props) {
     
     return (
         <div>
-            The Public
+            <h1 className="global-issues-title">Global Issues</h1>
             <IssueList issues={issues} />
         </div>
     )

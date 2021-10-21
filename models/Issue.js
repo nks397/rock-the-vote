@@ -17,10 +17,10 @@ const issueSchema = new Schema({
     // comment: {
     //     type: Array
     // },
-    // comment: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: "Comment",
-    // },
+    comment: [{
+        type: Schema.Types.ObjectId,
+        ref: "Comment",
+    }],
     upvotes: {
         type: Number,
         default: 0

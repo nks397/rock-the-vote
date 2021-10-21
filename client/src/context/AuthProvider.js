@@ -17,10 +17,11 @@ export default function AuthProvider(props) {
     const initState = {
         user: JSON.parse(localStorage.getItem("user")) || {},
         token: localStorage.getItem("token") || "",
-        issues: []
+        issues: [],
+        comments: [], 
+        errMsg: ""
     }
     const [userState, setUserState] = useState(initState)
-
     // signup and login route
 
     function signup(credentials) {
@@ -35,7 +36,7 @@ export default function AuthProvider(props) {
             }))
         })
         // dir console logs in object so we can look at its key: value pairs
-        .catch(err => console.dir(err.response.data.errMsg))
+        .catch(err => handleAuthErr(err.response.data.errMsg))
     }
 
     function login(credentials) {
@@ -49,7 +50,7 @@ export default function AuthProvider(props) {
                 ...prevState, user, token
             }))
         })
-        .catch(err => console.dir(err.response.data.errMsg))
+        .catch(err => handleAuthErr(err.response.data.errMsg))
     }
 
     function logout() {
@@ -61,9 +62,25 @@ export default function AuthProvider(props) {
         setUserState({
             user: {},
             token: "",
-            issues: []
+            issues: [],
+            comments: []
         })
-    }  
+    } 
+    
+    function handleAuthErr(errMsg) {
+        // update userState
+        setUserState(prevState => ({
+            ...prevState,
+            errMsg
+        }))
+    }
+
+    function resetAuthErr() {
+        setUserState(prevState => ({
+            ...prevState,
+            errMsg: ""
+        }))
+    }
 
 // getting all issues (public)
     function getAllIssues() {
@@ -102,15 +119,26 @@ export default function AuthProvider(props) {
         .catch(err => console.log(err.response.data.errMsg))
     }
 
+    // function deleteIssue(issueId) {
+    //     // Error: DELETE http://localhost:3000/api/issues/615e4f9ac1a44e163c709312 404 (Not Found)
+    //     // request is coming up undefined
+    //     userAxios.delete(`/api/issues/${issueId}`)
+    //         .then(() => {
+    //             setUserState(prevState => prevState.issues.filter(issue => issue._id !== issueId))
+    //         })
+    //         // console.log(userState, "US")
+    //         .catch(err => console.dir(err.response.data.errMsg))
+    // }
+
     function deleteIssue(issueId) {
-        // Error: DELETE http://localhost:3000/api/issues/615e4f9ac1a44e163c709312 404 (Not Found)
-        // request is coming up undefined
-        userAxios.delete(`/api/issues/${issueId}`)
-            .then(() => {
-                setUserState(prevState => prevState.issues.filter(issue => issue._id !== issueId))
-            })
-            // console.log(userState, "US")
-            .catch(err => console.dir(err.response.data.errMsg))
+        userAxios.delete(`/api/issue/${issueId}`)
+            .then(res => setUserState(prevState => ({
+                ...prevState,
+                issues: prevState.issues.filter(issue => issue._id !== issueId)
+            })))
+            .catch(err => console.log(err)
+            )
+        return getUserIssues()
     }
 
     function updateIssue(updates, issueId) {
@@ -123,10 +151,31 @@ export default function AuthProvider(props) {
     }
 
     // ***comments section***
-    function postComments(issueId) {
-        userAxios.post(`/api/issue/${issueId}/comments`)
-        .then(res => console.log(res))
+
+    // get comment by issue
+    // function getComments(commentId) {
+    //     userAxios.post(`/api/issue/${commentId}/comments`)
+    // }
+    
+    function postComments(newComment, commentId) {
+        userAxios.post(`/api/issue/${commentId}/comments`, newComment)
+        .then(res => {
+            setUserState(prevState => ({
+                ...prevState, issues: [...prevState.comments, res.data]
+            }))
+        })
         .catch(err => console.log(err))
+    }
+
+    function deleteComments(commentId) {
+        userAxios.delete(`/api/issue/${commentId}/comments`)
+        .then(res => {
+            setUserState(prevState => ({
+                ...prevState,
+                comments: prevState.comments.filter(comment => comment._id !== commentId)
+            }))})
+            .catch(err => console.log(err)
+            )
     }
 
     return (
@@ -136,12 +185,14 @@ export default function AuthProvider(props) {
                 signup,
                 login, 
                 logout,
+                resetAuthErr,
                 addIssue,
                 deleteIssue,
                 getUserIssues,
                 updateIssue,
                 getAllIssues,
-                postComments
+                postComments,
+                deleteComments
             }}>
             {props.children}
         </UserContext.Provider>

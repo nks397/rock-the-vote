@@ -1,0 +1,69 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-family: sans-serif;
+  outline: none;
+  text-decoration: none;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 40px;
+  background-color: #3339;
+}
+
+.auth-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.auth-container > form {
+  border: 1px solid #3339;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #aaa9;
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-container > form > input {
+  margin: 16px 8px;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.auth-container > form > button {
+  margin: 16px 8px;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+
+.username, .add-issue-title, .issue-form-container, .global-issues-title {
+  text-align: center;
+}
+
+.username, .add-issue-title {
+  margin: 8px;
+}
+
+.username {
+  font-size: 2em;
+}
+
+.add-issue-title, .global-issues-title {
+  font-size: 1.5em;
+}
+
