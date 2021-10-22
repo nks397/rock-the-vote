@@ -4,7 +4,7 @@ import IssueList from "./IssueList"
 import {UserContext} from "../context/AuthProvider"
 
 function Profile() {
-    const { getUserIssues, addIssue, updateIssue, issues, user, _id} = useContext(UserContext)
+    const { getUserIssues, addIssue, issues, user, _id} = useContext(UserContext)
 
 console.log(issues, "issuesProfile")
 

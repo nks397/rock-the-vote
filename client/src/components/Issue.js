@@ -5,8 +5,8 @@ import IssueForm from "./IssueForm"
 import CommentForm from "./CommentForm"
 
 function Issue(props) {
-    const {title, description, _id, updateIssue} = props
-    const {addIssue, deleteIssue} = useContext(UserContext)
+    const {title, description, _id} = props
+    const {addIssue, deleteIssue, updateIssue} = useContext(UserContext)
     const [editToggle, setEditToggle] = useState(false)
     const [commentToggle, setCommentToggle] = useState(false)
 

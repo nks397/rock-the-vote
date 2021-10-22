@@ -119,17 +119,6 @@ export default function AuthProvider(props) {
         .catch(err => console.log(err.response.data.errMsg))
     }
 
-    // function deleteIssue(issueId) {
-    //     // Error: DELETE http://localhost:3000/api/issues/615e4f9ac1a44e163c709312 404 (Not Found)
-    //     // request is coming up undefined
-    //     userAxios.delete(`/api/issues/${issueId}`)
-    //         .then(() => {
-    //             setUserState(prevState => prevState.issues.filter(issue => issue._id !== issueId))
-    //         })
-    //         // console.log(userState, "US")
-    //         .catch(err => console.dir(err.response.data.errMsg))
-    // }
-
     function deleteIssue(issueId) {
         userAxios.delete(`/api/issue/${issueId}`)
             .then(res => setUserState(prevState => ({
@@ -146,8 +135,8 @@ export default function AuthProvider(props) {
         .then(res => {
             setUserState(prevState => prevState.issues.map(issues => issues._id !== issueId ? issues : res.data))
         })
-        .then(res => console.log(res))
         .catch(err => console.log(err))
+        return getUserIssues()
     }
 
     // ***comments section***
@@ -176,6 +165,7 @@ export default function AuthProvider(props) {
             }))})
             .catch(err => console.log(err)
             )
+            // return getComments()
     }
 
     return (
