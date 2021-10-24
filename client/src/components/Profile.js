@@ -4,12 +4,13 @@ import IssueList from "./IssueList"
 import {UserContext} from "../context/AuthProvider"
 
 function Profile() {
-    const { getUserIssues, addIssue, issues, user, _id} = useContext(UserContext)
+    const { getUserIssues, addIssue, issues, user, _id, getComments} = useContext(UserContext)
 
 console.log(issues, "issuesProfile")
 
     useEffect(() => {
         getUserIssues()
+        // getComments(_id)
     }, [])
 
     return (

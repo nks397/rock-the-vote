@@ -42,17 +42,28 @@ commentRouter.get('/', (req, res, next) => {
   })
 
 // Post
-commentRouter.post("/", (req, res, next) => {
-    req.body.user = req.user._id
-    req.body.username = req.user.username
+commentRouter.post("/saveComment", (req, res, next) => {
+    // req.body.user = req.user._id
+    // req.body.username = req.user.username
     // req.body.issueId = req.params.issueId
     const newComment = new Comment(req.body)
     newComment.save((err, savedComment) => {
        if(err){
-                res.status(500)
-                return next(err)
-            }
-            return res.status(200).send(savedComment)
+        res.status(500)
+        return next(err)
+      }
+
+      Comment.find({"_id": savedComment._id})
+      .populate("writer")
+      .exec((err, result) => {
+        if(err){
+        res.status(500)
+        return next(err)
+        }
+        // dont want password to come back in writer object
+        return res.status(200).send(result)
+      })
+      
     })
 })
 

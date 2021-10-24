@@ -4,6 +4,7 @@ import { UserContext } from "../context/AuthProvider"
 
 function Public(props) {
     const {getAllIssues, issues} = useContext(UserContext)
+    
     console.log(issues)
 
     useEffect(() => {

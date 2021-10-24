@@ -6,15 +6,19 @@ const commentSchema = new Schema({
     comment: {
         type: String
     },
-    // writer: {
+    writer: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        // required: true
+    },
+    responseTo: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        // required: true
+    },
+    // user: {
     //     type: Schema.Types.ObjectId,
-    //     ref: "User",
-    //     required: true
-    // },
-    // responseTo: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: "User",
-    //     required: true
+    //     ref: 'User',
     // },
     username: {
         type: String,
@@ -24,7 +28,7 @@ const commentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Issue"
     }, 
-    // timestamps: true 
+    // {timestamps: true }
 })
 
 module.exports = mongoose.model("Comment", commentSchema)
