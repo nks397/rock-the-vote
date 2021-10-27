@@ -146,9 +146,12 @@ export default function AuthProvider(props) {
     // ***comments section***
 
     // get comment by issue
-    function getComments(commentId) {
-        userAxios.get(`/api/comment`)
-        .then(res => console.log(res, "comments data"))
+    function getComments(itemId) {
+        userAxios.post(`/api/comment`)
+        // .then(res => console.log(res, "comments data"))
+        .then(res => 
+                console.log(res.data._id, "getcommentdata")
+            )
         // userAxios.get("/api/issue/user")
         // .then(res => 
         //     setUserState(prevState => ({
@@ -162,44 +165,60 @@ export default function AuthProvider(props) {
     
     const [commentList, setCommentList] = useState([])
 
-    // function updateList(newComments) {
-    //     setCommentList(commentList.concat(newComments))
-    // }
-
     function postComments(newComment) { 
         userAxios.post(`/api/comment/saveComment`, newComment)
-        .then(res => setCommentList(res.data)) 
-        .then(res => {
-            if(res.data.success) {
-                // setCommentList("")
-                // updateList(res.data.result)
-                setCommentList()
-                // setCommentList(res.data)
-               console.log(commentList, "CL") 
-            }
-            console.log(res.data, "reSSSS")
-            
-            // setUserState(prevState => ({
-            //     ...prevState,
-            //     // issues: prevState.issues.map(issue => issue.), res.data
-            //     issues: [...prevState.comments, res.data]
-            //     // issues: [...prevState.map(item => console.log(item, "postCommnets"))]
-            // }))
-        })
+        .then(res => setCommentList(res.data))
+        
+        .then(res => console.log(res.data, "reSSSS"))
+        
         .catch(err => console.log(err))
     }
 
     function deleteComments(commentId) {
-        userAxios.delete(`/api/issue/${commentId}/comments`)
+        userAxios.delete(`/api/comment/:commentId`)
         .then(res => {
             setUserState(prevState => ({
                 ...prevState,
-                comments: prevState.comments.filter(comment => comment._id !== commentId)
+                // issues: prevState.issues.filter(issue => issue._id !== issueId)
+                commentList: prevState.commentList.filter(comment => comment._id !== commentId)
             }))})
             .catch(err => console.log(err)
             )
             // return getComments()
     }
+
+    // votes
+
+    const [upvoteCounter, setUpvoteCounter] = useState(0)
+    const [downvoteCounter, setDownvoteCounter] = useState(0)
+
+    function upvote(issueId) {
+        userAxios.put(`/api/issue/upvotes/${issueId}`)
+        .then(res => 
+            setUpvoteCounter(res.data.upvotes, "Upvote")
+            // setUserState(prevState => ({
+            // ...prevState,
+            // issues: prevState.issues.map(
+            //     issue => issue._id !== issueId ?
+            //     {
+            //         ...issue, 
+            //         upvotes: [...issue.upvotes, res.data]
+            //     } : 
+            //         issue
+            // )
+        
+        // })))
+        )
+
+    } 
+    
+    function downvote(issueId) {
+        userAxios.put(`/api/issue/downvotes/${issueId}`)
+        .then(res => 
+            setDownvoteCounter(res.data.downvotes, "Downvote")
+        )
+    } 
+
 
     return (
         <UserContext.Provider 
@@ -217,7 +236,11 @@ export default function AuthProvider(props) {
                 commentList,
                 getComments,
                 postComments,
-                deleteComments
+                deleteComments,
+                upvote,
+                upvoteCounter,
+                downvote,
+                downvoteCounter
             }}>
             {props.children}
         </UserContext.Provider>

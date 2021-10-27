@@ -1,9 +1,7 @@
 import React, {useState} from "react"
 
-
-
 function IssueForm(props) {
-    const {addIssue, updateIssue, submit, _id, btnText} = props
+    const {submit, _id, btnText} = props
 
     const initInputs = {
         title: props.title || "",
@@ -12,9 +10,6 @@ function IssueForm(props) {
 
     const [issueInputs, setIssueInputs] = useState(initInputs)
     
-
-    // create handlechange, inputs in jsx
-
     function handleChange(e){
         const {name, value} = e.target
         setIssueInputs(prevInputs => ({
@@ -26,8 +21,6 @@ function IssueForm(props) {
     function handleSubmit(e){
         e.preventDefault()
         submit(issueInputs, _id)
-        // addIssue(issueInputs)
-        // updateIssue(issueInputs, _id)
         setIssueInputs(initInputs)
     }
 
@@ -49,7 +42,6 @@ function IssueForm(props) {
             onChange={handleChange}
             placeholder="Description"
         />
-        {/* <button>Add Issue</button> */}
         <button>{btnText}</button>
     </form>
     )

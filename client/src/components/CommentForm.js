@@ -12,7 +12,7 @@ function CommentForm(props) {
     // add comment and see all comments for that issue depending on its id
 
     function handleChange(e){
-        const {name, value} = e.target
+        // const {name, value} = e.target
         setComment(e.currentTarget.value)
         //     prevComment => ({
         //     ...prevComment,

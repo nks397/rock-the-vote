@@ -1,10 +1,10 @@
 import React, {useContext, useEffect} from "react"
-import IssueList from "./IssueList"
 import { UserContext } from "../context/AuthProvider"
+import PublicIssuesList from "./PublicIssuesList"
 
-function Public(props) {
+function Public() {
     const {getAllIssues, issues} = useContext(UserContext)
-    
+
     console.log(issues)
 
     useEffect(() => {
@@ -14,7 +14,9 @@ function Public(props) {
     return (
         <div>
             <h1 className="global-issues-title">Global Issues</h1>
-            <IssueList issues={issues} />
+            <PublicIssuesList 
+                issues={issues}
+            />
         </div>
     )
 }

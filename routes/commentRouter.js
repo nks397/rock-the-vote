@@ -31,14 +31,23 @@ commentRouter.get('/:commentId', (req, res, next) => {
 
 
 // Get All Comments
-commentRouter.get('/', (req, res, next) => {
-    Comment.find((err, comments) => {
-      if(err){
-        res.status(500)
-        return next(err)
-      }
-      return res.status(200).send(comments)
-    })
+commentRouter.post('/', (req, res, next) => {
+    // Comment.find((err, comments) => {
+    //   if(err){
+    //     res.status(500)
+    //     return next(err)
+    //   }
+    //   return res.status(200).send(comments)
+    // })
+    Comment.find({"issueId": req.body.issueId})
+      .populate("writer")
+      .exec((err, comments) => {
+        if(err){
+          res.status(500)
+          return next(err)
+        }
+        return res.status(200).send(comments)
+      })
   })
 
 // Post

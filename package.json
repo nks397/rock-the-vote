@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@ant-design/icons": "^4.7.0",
+    "antd": "^4.16.13",
     "axios": "^0.21.4",
     "bcrypt": "^5.0.1",
     "brcypt": "^1.0.1",

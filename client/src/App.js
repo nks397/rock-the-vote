@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
-import Navbar from './components/Navbar.js'
-import Auth from './components/Auth.js'
-import ProtectedRoute from './components/ProtectedRoute.js'
-import Profile from './components/Profile.js'
-import Public from './components/Public.js'
-import { UserContext } from './context/AuthProvider.js'
+import Navbar from './components/Navbar'
+import Auth from './components/Auth'
+import ProtectedRoute from './components/ProtectedRoute'
+import Profile from "./components/Profile"
+import Public from './components/Public'
+import { UserContext } from './context/AuthProvider'
 
 export default function App(){
   const { token, logout} = useContext(UserContext)
