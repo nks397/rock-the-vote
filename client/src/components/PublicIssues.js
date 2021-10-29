@@ -5,7 +5,7 @@ import UpvoteDownvote from "./UpvoteDownvote"
 
 function PublicIssue(props) {
     const {title, description, _id, comment} = props
-    const {commentList, user} = useContext(UserContext)
+    const {user} = useContext(UserContext)
     const [commentToggle, setCommentToggle] = useState(false)
     
     return(
@@ -20,9 +20,8 @@ function PublicIssue(props) {
             <button onClick={()=> setCommentToggle(!commentToggle)}>Comments</button>
             { commentToggle ? 
                 <div>
-                    Comment Section Open: 
                     {console.log(comment, "commentsss")}
-                    <Comments key={_id} comment={comment} _id={_id} commentList={commentList} />
+                    <Comments key={_id} comment={comment} _id={_id}/>
 
                 </div> : 
                 null 

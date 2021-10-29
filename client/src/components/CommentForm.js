@@ -23,13 +23,13 @@ function CommentForm(props) {
 
     const commentData = {
         comment,
-        writer: user._id, 
+        writer: user._id,
         issueId: _id
     }
 
     function handleSubmit(e){
         e.preventDefault()
-        postComments(commentData)
+        postComments(commentData, _id)
         setComment("")
         // console.log(user, "USER")
         console.log(commentData, "COMMENTDATA")
@@ -49,7 +49,7 @@ function CommentForm(props) {
                 />
                 <button>Add Comment</button>
             </form>
-            <button onClick={()=> deleteComments(_id)}>Delete Comment</button>
+            {/* <button onClick={()=> deleteComments(_id)}>Delete Comment</button> */}
         </div>
     )
 }

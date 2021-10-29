@@ -2,27 +2,20 @@ import React from "react"
 import CommentForm from "./CommentForm"
 
 function Comment(props) {
-    const {comment, _id, commentList} = props
+    const {comment, _id} = props
     return (
         <div>
             <br/>
             <p>replies</p>
             <CommentForm _id={_id}/>
+            {console.log(comment, "COMMENT")}
             {/* List of Comments: */}
-            {console.log(commentList, "CommentList")}
-            {commentList.map((issue, index) => 
-            // same comments show up for all issues
-                (!issue.responseTo ?
-                    <div>
-                        <p>Username: {issue.writer.username}</p>
-                        <p>Comment: {issue.comment}</p>
-                    </div> 
-                    : null
-                )
+            {comment.map((item, index) =>  
+                <div key={index}>
+                    <p>Username: {item.username}</p>
+                    <p>Comment: {item.comment}</p>
+                </div>
             )}
-            {/* form */}
-            
-            {console.log(comment, "my commments from Comments")}
         </div>
     )
 }

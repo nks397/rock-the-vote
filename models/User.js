@@ -21,10 +21,10 @@ const userSchema = new Schema({
         type: Boolean,
         default: false
     },
-    issue: {
-        type: Array,
-        default: []
-    }
+    // issue: {
+    //     type: Array,
+    //     default: []
+    // }
 })
 
 // pre-save hook to encrypt user passwords on signup

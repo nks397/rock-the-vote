@@ -6,7 +6,7 @@ import UpvoteDownvote from "./UpvoteDownvote"
 
 function Issue(props) {
     const {title, description, _id, comment} = props
-    const {deleteIssue, updateIssue, commentList} = useContext(UserContext)
+    const {deleteIssue, updateIssue} = useContext(UserContext)
     const [editToggle, setEditToggle] = useState(false)
     const [commentToggle, setCommentToggle] = useState(false)
     
@@ -34,10 +34,8 @@ function Issue(props) {
             <button onClick={()=> setCommentToggle(!commentToggle)}>Comments</button>
             { commentToggle ? 
                 <div>
-                    Comment Section Open: 
                     {console.log(comment, "commentsss")}
-                    <Comments key={_id} comment={comment} _id={_id} commentList={commentList} />
-
+                    <Comments key={_id} comment={comment} _id={_id}/>
                 </div> : 
                 null 
             } 

@@ -12,23 +12,23 @@ const issueSchema = new Schema({
     },
     username: {
         type: String,
-        required: true
     },
-    // comment: {
-    //     type: Array
-    // },
-    comment: [{
+    comment: {
+        type: Array,
+        ref: "Comment"
+    },
+    // commentId: [{
+    //     type: Schema.Types.ObjectId,
+    //     ref: "Comment",
+    // }],
+    votes: [{
         type: Schema.Types.ObjectId,
-        ref: "Comment",
+        // ref: "User"
     }],
-    upvotes: {
-        type: Number,
-        default: 0
-    },
-    downvotes: {
-        type: Number,
-        default: 0
-    },
+    // downvotes: [{
+    //     type: Schema.Types.ObjectId,
+    //     ref: "Downvote"
+    // }],
     user: {
         type: Schema.Types.ObjectId,
         ref: "User",

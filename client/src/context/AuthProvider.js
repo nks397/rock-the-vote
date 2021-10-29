@@ -145,13 +145,14 @@ export default function AuthProvider(props) {
 
     // ***comments section***
 
-    // get comment by issue
-    function getComments(itemId) {
-        userAxios.post(`/api/comment`)
+    // get all comments by issue
+    function getComments(issueId) {
+        userAxios.post(`/api/issue/${issueId}/getComment`)
         // .then(res => console.log(res, "comments data"))
         .then(res => 
-                console.log(res.data._id, "getcommentdata")
+                console.log(res.data, "getcommentByIssuedata")
             )
+        .catch(err => console.log(err.response.data.errMsg))
         // userAxios.get("/api/issue/user")
         // .then(res => 
         //     setUserState(prevState => ({
@@ -162,63 +163,51 @@ export default function AuthProvider(props) {
         // )
         // .catch(err => console.log(err.response.data.errMsg))
     }
-    
-    const [commentList, setCommentList] = useState([])
 
-    function postComments(newComment) { 
-        userAxios.post(`/api/comment/saveComment`, newComment)
-        .then(res => setCommentList(res.data))
+    function postComments(newComment, issueId) { 
+        userAxios.post(`/api/issue/${issueId}/saveComment`, newComment)
+        .then(res => {
+            setUserState(prevState => ({
+                ...prevState, 
+                issues: [...prevState.issues.map(issue => issue._id === issueId ? {issues: issue.comment} : issue), res.data]
+            }))
+        })
+        .catch(err => console.log(err.response.data.errMsg))
         
         .then(res => console.log(res.data, "reSSSS"))
-        
         .catch(err => console.log(err))
     }
 
-    function deleteComments(commentId) {
-        userAxios.delete(`/api/comment/:commentId`)
-        .then(res => {
-            setUserState(prevState => ({
-                ...prevState,
-                // issues: prevState.issues.filter(issue => issue._id !== issueId)
-                commentList: prevState.commentList.filter(comment => comment._id !== commentId)
-            }))})
-            .catch(err => console.log(err)
-            )
-            // return getComments()
+    function deleteComments(issueId) {
+        userAxios.delete(`/api/issue/${issueId}/deleteComment`)
+            .then(res => {
+                setUserState(prevState => ({
+                    ...prevState, 
+                    issues: [...prevState.issues.filter(issue => issue._id !== issueId ? {comment: issue.comment} : issue), res.data]
+                }))
+            })
     }
 
     // votes
 
-    const [upvoteCounter, setUpvoteCounter] = useState(0)
-    const [downvoteCounter, setDownvoteCounter] = useState(0)
+    // Each issue’s comments and likes needs to be nested in the issue’s array.
 
     function upvote(issueId) {
         userAxios.put(`/api/issue/upvotes/${issueId}`)
         .then(res => 
-            setUpvoteCounter(res.data.upvotes, "Upvote")
-            // setUserState(prevState => ({
-            // ...prevState,
-            // issues: prevState.issues.map(
-            //     issue => issue._id !== issueId ?
-            //     {
-            //         ...issue, 
-            //         upvotes: [...issue.upvotes, res.data]
-            //     } : 
-            //         issue
-            // )
-        
-        // })))
-        )
-
+                setUserState(prevState => ({
+                    ...prevState, 
+                    issues: [...prevState.issues.map(issue => issue._id === issueId ? {upvotes: issue.upvotes} : issue), res.data]
+                }))
+            )
     } 
     
     function downvote(issueId) {
         userAxios.put(`/api/issue/downvotes/${issueId}`)
         .then(res => 
-            setDownvoteCounter(res.data.downvotes, "Downvote")
+            console.log(res)
         )
     } 
-
 
     return (
         <UserContext.Provider 
@@ -233,14 +222,13 @@ export default function AuthProvider(props) {
                 getUserIssues,
                 updateIssue,
                 getAllIssues,
-                commentList,
                 getComments,
                 postComments,
                 deleteComments,
                 upvote,
-                upvoteCounter,
+                // upvoteCounter,
                 downvote,
-                downvoteCounter
+                // downvoteCounter
             }}>
             {props.children}
         </UserContext.Provider>

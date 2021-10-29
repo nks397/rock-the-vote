@@ -4,7 +4,7 @@ import { LikeOutlined, LikeFilled, DislikeOutlined, DislikeFilled } from '@ant-d
 import {UserContext} from "../context/AuthProvider"
 
 function UpvoteDownvote(props) {
-    const {upvote, upvoteCounter, downvote, downvoteCounter} = useContext(UserContext)
+    const {upvote, upvoteCounter, downvote, downvoteCounter, issues} = useContext(UserContext)
     const {_id} = props
 
     return (
@@ -19,7 +19,7 @@ function UpvoteDownvote(props) {
                     onClick={()=>upvote(_id)}
                 /> 
             </Tooltip>
-            <span>{upvoteCounter}</span>
+            <span></span>
             <Tooltip>
                 <DislikeOutlined type="downvote"
                     onClick={()=>downvote(_id)}

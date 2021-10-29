@@ -1,7 +1,7 @@
 const express = require("express")
 const issueRouter = express.Router()
 const Issue = require("../models/Issue.js")
-
+const Comment = require("../models/Comment.js")
 
 // Get All
 issueRouter.get("/", (req, res, next) => {
@@ -83,16 +83,70 @@ issueRouter.delete("/:issueId", (req, res, next) => {
     })
 })
 
-// like issue
-issueRouter.put("/upvotes/:issueId",(req, res, next) => {
-    Issue.findOneAndUpdate({_id: req.params.issueId}, {$inc: {upvotes: 1}}, {new: true}, (err, updatedIssue) => {
-        if(err){
+// comment section
+
+// post comment
+issueRouter.post("/:issueId/saveComment", (req, res, next) => {
+    req.body.user = req.user._id
+    const issueId = req.params.issueId
+    req.body.username = req.user.username
+    const newSavedComment = new Comment(req.body)
+
+    Issue.findById({ _id: issueId}, (err, issue) => {
+        if(err) {
             res.status(500)
             return next(err)
         }
-        return res.status(201).send(updatedIssue)
+        issue.comment.push(newSavedComment)
+        issue.populate("comment")
+        issue.save()
+        
+        return res.status(200).send(issue)
     })
 })
+
+// get all comments for a specific issue
+issueRouter.get("/:issueId/getComment", (req, res, next) => {
+    // req.body.user = req.user._id
+    const issueId = req.params.issueId
+    req.body.username = req.user.username
+
+    Issue.findById({ _id: issueId}, (err, issue) => {
+        if(err) {
+            res.status(500)
+            return next(err)
+        }
+        // const commentsByIssueId = issue.comment
+        return res.status(200).send(issue.comment)
+    })
+})
+
+// delete comment
+issueRouter.delete('/:issueId/deleteComment', (req, res, next) => {
+    Comment.findByIdAndDelete(
+      { _id: req.params.commentId, user: req.user._id },
+      (err, deletedComment) => {
+        if(err){
+          res.status(500)
+          return next(err)
+        }
+        return res.status(200).send(`Successfully deleted comment ${deletedComment}`)
+      }
+    )
+  })
+  
+
+// like issue
+// issueRouter.put("/:issueId/upvotes",(req, res, next) => {
+//     const userId = req.user._id
+//     const issueId = req.params.issueId
+//     Issue.findLikes(userId, {_id: issueId}, ((err, updatedVote) => {
+//         if(!err){
+//             !!updatedVote.length
+//         }
+//         return res.status(201).send(updatedVote)
+//     })
+// )})
 
 // dislike issue
 issueRouter.put("/downvotes/:issueId",(req, res, next) => {
