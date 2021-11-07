@@ -6,7 +6,7 @@ function PublicIssuesList(props) {
     const {issues} = props
     return (
         <div>
-            {issues.map(issue => <PublicIssues {...issue} key={issue._id}/>)}
+            {issues.map((issue) => <PublicIssues key={issue._id} {...issue} />)}
         </div>
     )
 }

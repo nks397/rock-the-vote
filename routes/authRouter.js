@@ -11,7 +11,7 @@ authRouter.post("/signup", (req, res, next) => {
             return next(err)
         }
         if(user){
-            // console.log(user, "user")
+            console.log(user, "user")
             // this status means forbidden
             res.status(403)
             return next(new Error("That username is already taken."))
@@ -30,10 +30,10 @@ authRouter.post("/signup", (req, res, next) => {
             // payload, secret
             // savedUser.toObject is in the form of an object.
 
-            // const token = jwt.sign(savedUser.toObject(), process.env.SECRET)
-            // return res.status(201).send({token, user: savedUser})
-            const token = jwt.sign(user.withoutPassword(), process.env.SECRET)
-            return res.status(201).send({token, user: user.withoutPassword()})
+            const token = jwt.sign(savedUser.toObject(), process.env.SECRET)
+            return res.status(201).send({token, user: savedUser})
+            // const token = jwt.sign(savedUser.withoutPassword(), process.env.SECRET)
+            // return res.status(201).send({token, user: savedUser.withoutPassword()})
         })
     })
 })
@@ -54,10 +54,24 @@ authRouter.post('/login', (req, res, next) => {
             res.status(403)
             return next(new Error("Username or Password are incorrect"))
         }
-        // const token = jwt.sign(user.toObject(), process.env.SECRET)
+        const token = jwt.sign(user.toObject(), process.env.SECRET)
+        return res.status(200).send({token, user})
+        // const token = jwt.sign(user.withoutPassword(), process.env.SECRET)
+        // return res.status(201).send({token, user: user.withoutPassword()})
+        // user.checkPassword(req.body.password, (err, isMatch) => {
+        //     if(err){
+        //         res.status(403)
+        //         return next(new Error("Username or Password are incorrect"))
+        //     }
+        //     if(isMatch){
+        //         res.status(403)
+        //         return next(new Error("Username or Password are incorrect"))
+        //     }
+        //     // const token = jwt.sign(user.withoutPassword(), process.env.SECRET)
+        //     // return res.status(200).send({token, user: user.withoutPassword()})
+        //     const token = jwt.sign(user.toObject(), process.env.SECRET)
         // return res.status(200).send({token, user})
-        const token = jwt.sign(user.withoutPassword(), process.env.SECRET)
-        return res.status(201).send({token, user: user.withoutPassword()})
+        // })
     })
 })
 

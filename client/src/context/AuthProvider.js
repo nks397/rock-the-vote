@@ -99,7 +99,6 @@ export default function AuthProvider(props) {
         .then(res => 
             setUserState(prevState => ({
                 ...prevState,
-                // res.data is used for initial get request. It just grabs our data object?
                 issues: res.data
             }))
         )
@@ -166,48 +165,69 @@ export default function AuthProvider(props) {
 
     function postComments(newComment, issueId) { 
         userAxios.post(`/api/issue/${issueId}/saveComment`, newComment)
+        // .then(res => console.log(res, "Data for Posted Comments"))
         .then(res => {
             setUserState(prevState => ({
                 ...prevState, 
-                issues: [...prevState.issues.map(issue => issue._id === issueId ? {issues: issue.comment} : issue), res.data]
+                issues: [...prevState.issues.map(issue => issue._id === issueId ? res.data : issue)]
             }))
         })
-        .catch(err => console.log(err.response.data.errMsg))
+        // .catch(err => console.log(err.response.data.errMsg))
         
-        .then(res => console.log(res.data, "reSSSS"))
         .catch(err => console.log(err))
     }
 
-    function deleteComments(issueId) {
-        userAxios.delete(`/api/issue/${issueId}/deleteComment`)
-            .then(res => {
-                setUserState(prevState => ({
-                    ...prevState, 
-                    issues: [...prevState.issues.filter(issue => issue._id !== issueId ? {comment: issue.comment} : issue), res.data]
-                }))
-            })
-    }
+    // function deleteComments(issueId) {
+    //     userAxios.delete(`/api/issue/${issueId}/deleteComment`)
+    //         .then(res => {
+    //             setUserState(prevState => ({
+    //                 ...prevState, 
+    //                 issues: [...prevState.issues.filter(issue => issue._id !== issueId ? {comment: issue.comment} : issue), res.data]
+    //             }))
+    //         })
+    // }
 
     // votes
 
     // Each issue’s comments and likes needs to be nested in the issue’s array.
 
-    function upvote(issueId) {
-        userAxios.put(`/api/issue/upvotes/${issueId}`)
-        .then(res => 
-                setUserState(prevState => ({
-                    ...prevState, 
-                    issues: [...prevState.issues.map(issue => issue._id === issueId ? {upvotes: issue.upvotes} : issue), res.data]
-                }))
-            )
-    } 
+    // function upvoteHandler(issueId) {
+    //     userAxios.put(`/api/issue/upvotes/${issueId}`)
+    //     // .then(res => console.log(res.data, "res object"))
+    //     .then(res => 
+    //             setUserState(prevState => ({
+    //                 ...prevState, 
+    //                 issues: [...prevState.issues.map(issue => issue._id === issueId ? res.data : issue)]
+    //             }))
+    //         )
+    // }
     
-    function downvote(issueId) {
-        userAxios.put(`/api/issue/downvotes/${issueId}`)
-        .then(res => 
-            console.log(res)
-        )
-    } 
+    // function downvoteHandler(issueId) {
+    //     userAxios.put(`/api/issue/downvotes/${issueId}`)
+    //     .then(res => 
+    //         setUserState(prevState => ({
+    //             ...prevState,
+    //             issues: [...prevState.issues.map(issue => issue.id === issueId ? res.data : issue)]
+    //         }))
+    //     )
+    // } 
+
+    function voteHandler(vote, issueId){
+        userAxios.put(`/api/issue/${vote}/${issueId}`)
+            .then(res => {
+                setUserState(prevState => ({
+                    ...prevState,
+                    issues: [res.data]
+                }))
+            })
+            // .then(res => 
+            //     setUserState(prevState => ({
+            //         ...prevState,
+            //         issues: [...prevState.issues.map(issue => issue.id === issueId ? res.data : issue)]
+            //     }))
+            // )
+            .catch(err => console.log(err.response.data.errMsg))
+    }
 
     return (
         <UserContext.Provider 
@@ -224,10 +244,12 @@ export default function AuthProvider(props) {
                 getAllIssues,
                 getComments,
                 postComments,
-                deleteComments,
-                upvote,
+                // deleteComments,
+                voteHandler,
+                // upvoteHandler,
                 // upvoteCounter,
-                downvote,
+                // downvoteHandler,
+                // upvoteFunctionality
                 // downvoteCounter
             }}>
             {props.children}

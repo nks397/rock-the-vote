@@ -6,6 +6,8 @@ function IssueForm(props) {
     const initInputs = {
         title: props.title || "",
         description: props.description || "",
+        votes: 0,
+        voters: []
     }
 
     const [issueInputs, setIssueInputs] = useState(initInputs)

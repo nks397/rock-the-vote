@@ -9,7 +9,6 @@ function CommentForm(props) {
     const [comment, setComment] = useState("")
     const {user, issues, postComments, deleteComments} = useContext(UserContext)
     const {_id} = props
-    // add comment and see all comments for that issue depending on its id
 
     function handleChange(e){
         // const {name, value} = e.target

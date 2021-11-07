@@ -14,27 +14,28 @@ const issueSchema = new Schema({
         type: String,
     },
     comment: {
-        type: Array,
-        ref: "Comment"
+        type: Array
     },
-    // commentId: [{
-    //     type: Schema.Types.ObjectId,
-    //     ref: "Comment",
-    // }],
-    votes: [{
-        type: Schema.Types.ObjectId,
-        // ref: "User"
+    // upvotes: [],
+    // downvotes: [],
+   
+    upvote: {
+        type: Number,
+        default: 0,
+    },
+    downvote: {
+        type: Number,
+        default: 0
+    },
+    votedUsers: [{
+        type: String
     }],
-    // downvotes: [{
-    //     type: Schema.Types.ObjectId,
-    //     ref: "Downvote"
-    // }],
+    // voters: [],
     user: {
         type: Schema.Types.ObjectId,
         ref: "User",
         required: true
     }
 })
-
 
 module.exports = mongoose.model("Issue", issueSchema)

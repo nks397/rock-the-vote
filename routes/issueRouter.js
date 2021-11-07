@@ -1,4 +1,5 @@
 const express = require("express")
+const mongoose = require("mongoose")
 const issueRouter = express.Router()
 const Issue = require("../models/Issue.js")
 const Comment = require("../models/Comment.js")
@@ -122,41 +123,55 @@ issueRouter.get("/:issueId/getComment", (req, res, next) => {
 })
 
 // delete comment
-issueRouter.delete('/:issueId/deleteComment', (req, res, next) => {
-    Comment.findByIdAndDelete(
-      { _id: req.params.commentId, user: req.user._id },
-      (err, deletedComment) => {
-        if(err){
-          res.status(500)
-          return next(err)
-        }
-        return res.status(200).send(`Successfully deleted comment ${deletedComment}`)
-      }
-    )
-  })
+// issueRouter.delete('/:issueId/deleteComment', (req, res, next) => {
+//     Comment.findByIdAndDelete(
+//       { _id: req.params.commentId, user: req.user._id },
+//       (err, deletedComment) => {
+//         if(err){
+//           res.status(500)
+//           return next(err)
+//         }
+//         return res.status(200).send(`Successfully deleted comment ${deletedComment}`)
+//       }
+//     )
+//   })
   
 
-// like issue
-// issueRouter.put("/:issueId/upvotes",(req, res, next) => {
-//     const userId = req.user._id
-//     const issueId = req.params.issueId
-//     Issue.findLikes(userId, {_id: issueId}, ((err, updatedVote) => {
-//         if(!err){
-//             !!updatedVote.length
-//         }
-//         return res.status(201).send(updatedVote)
-//     })
-// )})
+// upvote issue
+// let upvote = req.body.upvotes
+issueRouter.put("/upvotes/:issueId",(req, res, next) => {
+    Issue.findByIdAndUpdate({ _id: req.params.issueId },
+        { $inc: {upvote: 1 },
+            $push: { votedUsers:
+                { $each: [req.user._id] }
+        }},
+        { new: true },
+        (err, updatedIssue) => {
+            if(err){
+                res.status(500)
+                return next(err)
+            }
+            return res.status(201).send(updatedIssue)
+        })
+})
 
-// dislike issue
+
+// downvote issue
+// let downvote = req.body.downvotes
 issueRouter.put("/downvotes/:issueId",(req, res, next) => {
-    Issue.findOneAndUpdate({_id: req.params.issueId}, {$inc: {downvotes: 1}}, {new: true}, (err, updatedIssue) => {
-        if(err){
-            res.status(500)
-            return next(err)
-        }
-        return res.status(201).send(updatedIssue)
-    })
+    Issue.findByIdAndUpdate({ _id: req.params.issueId },
+        { $inc: {downvote: 1 },
+            $push: { votedUsers:
+                { $each: [req.user._id] }
+        }},
+        { new: true },
+        (err, updatedIssue) => {
+            if(err){
+                res.status(500)
+                return next(err)
+            }
+            return res.status(201).send(updatedIssue)
+        })
 })
 
 module.exports = issueRouter

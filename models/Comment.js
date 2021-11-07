@@ -27,8 +27,7 @@ const commentSchema = new Schema({
     issueId: {
         type: Schema.Types.ObjectId,
         ref: "Issue"
-    }, 
-    // {timestamps: true }
+    }
 })
 
 module.exports = mongoose.model("Comment", commentSchema)

@@ -10,7 +10,6 @@ console.log(issues, "issuesProfile")
 
     useEffect(() => {
         getUserIssues()
-        // getComments(_id)
     }, [])
 
     return (

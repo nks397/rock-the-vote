@@ -8,14 +8,17 @@ function Issue(props) {
     const {title, description, _id, comment} = props
     const {deleteIssue, updateIssue} = useContext(UserContext)
     const [editToggle, setEditToggle] = useState(false)
-    const [commentToggle, setCommentToggle] = useState(false)
+    // const [commentToggle, setCommentToggle] = useState(false)
     
     return(
         <div>
-            <h2>Title: {title}</h2>
-            <h3>Description: {description}</h3>
+            <br/>   
+            <h2><b>{title}</b></h2>
+            <p>Description: {description}</p>
+            <br/>
             <button onClick={()=>deleteIssue(_id)}>Delete</button>
             <button onClick={()=> setEditToggle(!editToggle)}>{!editToggle ? "Edit" : "Cancel"}</button>
+            <br/>
             {editToggle ? 
                 <div>
                     <IssueForm 
@@ -28,17 +31,20 @@ function Issue(props) {
                 </div> : 
                 null
             }
+            <br/>
+            <UpvoteDownvote _id={_id} />
+            <br/>
+            <details><summary>Comments</summary><Comments key={_id} comment={comment} _id={_id}/></details>
 
-            <UpvoteDownvote _id={_id}/>
-
-            <button onClick={()=> setCommentToggle(!commentToggle)}>Comments</button>
+            {/* <button onClick={()=> setCommentToggle(!commentToggle)}>Comments</button>
             { commentToggle ? 
                 <div>
                     {console.log(comment, "commentsss")}
                     <Comments key={_id} comment={comment} _id={_id}/>
                 </div> : 
                 null 
-            } 
+            }  */}
+            <br/>
             <hr/>   
         </div>
     )

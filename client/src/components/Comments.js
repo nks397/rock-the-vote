@@ -6,7 +6,6 @@ function Comment(props) {
     return (
         <div>
             <br/>
-            <p>replies</p>
             <CommentForm _id={_id}/>
             {console.log(comment, "COMMENT")}
             {/* List of Comments: */}
