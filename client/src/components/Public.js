@@ -1,9 +1,9 @@
 import React, {useContext, useEffect} from "react"
-import { UserContext } from "../context/AuthProvider"
+import { AuthContext } from "../context/AuthProvider"
 import PublicIssuesList from "./PublicIssuesList"
 
 function Public() {
-    const {getAllIssues, issues} = useContext(UserContext)
+    const {getAllIssues, issues} = useContext(AuthContext)
 
     console.log(issues)
 
@@ -12,11 +12,15 @@ function Public() {
     }, [])
     
     return (
-        <div>
+        <div className="public-container">
             <h1 className="global-issues-title">Global Issues</h1>
-            <PublicIssuesList 
-                issues={issues}
-            />
+            <div className="issues-container">
+            <div className="empty-div"></div>
+                <PublicIssuesList 
+                    issues={issues}
+                />
+            <div className="empty-div"></div>
+            </div>
         </div>
     )
 }

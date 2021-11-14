@@ -3,6 +3,7 @@ import CommentForm from "./CommentForm"
 
 function Comment(props) {
     const {comment, _id} = props
+    
     return (
         <div>
             <br/>
@@ -11,10 +12,13 @@ function Comment(props) {
             {/* List of Comments: */}
             {comment.map((item, index) =>  
                 <div key={index}>
-                    <p>Username: {item.username}</p>
-                    <p>Comment: {item.comment}</p>
+                    <p>{item.comment}</p>
+                    <p>submitted by @{item.username}</p>
+                    <p>submitted {item.timeStamps}</p>
+                    <hr/>
                 </div>
             )}
+            {console.log(comment.timeStamps, "commentTimestamps")}
         </div>
     )
 }

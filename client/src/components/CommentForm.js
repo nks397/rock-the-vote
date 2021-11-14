@@ -1,5 +1,5 @@
 import React, {useState, useContext} from "react"
-import { UserContext } from "../context/AuthProvider"
+import { AuthContext } from "../context/AuthProvider"
 
 function CommentForm(props) {
     // const initInputs = {
@@ -7,7 +7,7 @@ function CommentForm(props) {
     // }
     // const [commentInput, setCommentInput] = useState(initInputs)
     const [comment, setComment] = useState("")
-    const {user, issues, postComments, deleteComments} = useContext(UserContext)
+    const {user, issues, postComments} = useContext(AuthContext)
     const {_id} = props
 
     function handleChange(e){
@@ -23,7 +23,7 @@ function CommentForm(props) {
     const commentData = {
         comment,
         writer: user._id,
-        issueId: _id
+        issueId: _id,
     }
 
     function handleSubmit(e){

@@ -1,5 +1,4 @@
 const express = require("express")
-const mongoose = require("mongoose")
 const issueRouter = express.Router()
 const Issue = require("../models/Issue.js")
 const Comment = require("../models/Comment.js")
@@ -46,6 +45,7 @@ issueRouter.get("/user", (req, res, next) => {
 issueRouter.post("/", (req, res, next) => {
     req.body.user = req.user._id
     req.body.username = req.user.username
+    req.body.timestamps = req.user.timestamps
     const newIssue = new Issue(req.body)
     newIssue.save((err, savedIssue) => {
         if(err){
@@ -91,6 +91,7 @@ issueRouter.post("/:issueId/saveComment", (req, res, next) => {
     req.body.user = req.user._id
     const issueId = req.params.issueId
     req.body.username = req.user.username
+    req.body.timestamps = req.user.timestamps
     const newSavedComment = new Comment(req.body)
 
     Issue.findById({ _id: issueId}, (err, issue) => {
@@ -121,21 +122,6 @@ issueRouter.get("/:issueId/getComment", (req, res, next) => {
         return res.status(200).send(issue.comment)
     })
 })
-
-// delete comment
-// issueRouter.delete('/:issueId/deleteComment', (req, res, next) => {
-//     Comment.findByIdAndDelete(
-//       { _id: req.params.commentId, user: req.user._id },
-//       (err, deletedComment) => {
-//         if(err){
-//           res.status(500)
-//           return next(err)
-//         }
-//         return res.status(200).send(`Successfully deleted comment ${deletedComment}`)
-//       }
-//     )
-//   })
-  
 
 // upvote issue
 // let upvote = req.body.upvotes

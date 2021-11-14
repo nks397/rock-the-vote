@@ -3,24 +3,46 @@
   margin: 0;
   padding: 0;
   font-size: 16px;
-  font-family: sans-serif;
+  font-family: 'Roboto', sans-serif;
   outline: none;
   text-decoration: none;
 }
 
 .navbar {
   display: flex;
+  position: fixed;
+  width: 100vw;
+  margin: 0;
   justify-content: space-around;
   align-items: center;
   height: 40px;
-  background-color: #3339;
+  background-color: rgba(48, 48, 54, 0.603);
+  -webkit-box-shadow: 0 8px 6px -6px black;
+	   -moz-box-shadow: 0 8px 6px -6px black;
+	        box-shadow: 0 8px 6px -6px black;
 }
 
 .auth-container {
   display: flex;
   align-items: center;
   flex-direction: column;
+  padding-top: 15vh;
   height: 100vh;
+  background-image: url(https://images.unsplash.com/photo-1509114397022-ed747cca3f65?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8NGslMjBhYnN0cmFjdCUyMGJhY2tncm91bmR8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.auth-container > h1 {
+  color: black;
+  font-family: 'Bebas Neue', cursive;
+  font-size: 8vh;
+  padding-bottom: 8vh;
+}
+
+.authMsg {
+  padding-top: 2vh;
+  cursor: pointer;
 }
 
 .auth-container > form {
@@ -51,33 +73,130 @@
   height: 100vh;
 }
 
-.username, .add-issue-title, .issue-form-container, .global-issues-title {
+.profile-container, .public-container {
+  padding-top: 9vh;
+  /* display: flex;
+  flex-direction: column; */
+  
+}
+
+.edit-form {
+  margin-left: 0;
+}
+
+.username, .state-issue-title, .issue-form-container, .global-issues-title {
   text-align: center;
 }
 
-.username, .add-issue-title {
-  margin: 8px;
+.logo {
+  font-family: 'Cute Font', cursive;
+  font-size: 2em;
+}
+.fa-check-square {
+  font-size: 0.7em;
+  color: navy;
+}
+
+a {
+  color: black;
+  font-family: 'Bebas Neue', cursive;
+  font-size: 1.5em;
+}
+
+a:hover {
+  color: navy;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  height: 2.5vh;
+  width: 10vh;
+}
+
+hr {
+  
+}
+
+.issues-container > button {
+margin-right: 5px;
+}
+
+button:hover {
+  /* color:#000000;
+ background-color:#FFFFFF; */
+}
+
+.global-issues-title {
+  padding-top: 7vh;
+  padding-bottom: 7vh;
+  font-size: 2em;
+  color: beige;
+  background-image: url(https://images.unsplash.com/photo-1556139930-c23fa4a4f934?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTl8fGFic3RyYWN0fGVufDB8MHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60);
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-left: 4vh;
+  margin-right: 4vh;
+  
+  border-radius: 15px;
+  /* font-family: 'Bebas Neue', cursive; */
+}
+
+.issues-container {
+  /* display: grid;
+  grid-template-columns: repeat(3, 1fr); */
+  /* grid-template-rows: auto; */
+  margin: 4vh;
+}
+
+.username, .state-issue-title {
+  /* margin: 8px; */
 }
 
 .username {
   font-size: 2em;
+  font-family: 'Bebas Neue', cursive;
+  color: beige;
+  background-image: url(https://t3.ftcdn.net/jpg/03/40/59/40/240_F_340594012_AxN0FnWtKmdCe6PBm1tRHjTbK2ZVe8Tf.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* margin: 20px; */
+  margin-left: 4vh;
+  margin-right: 4vh;
+  padding-top: 7vh;
+  padding-bottom: 7vh;
+  border-radius: 15px;
 }
 
-.add-issue-title, .global-issues-title {
-  font-size: 1.5em;
+.state-issue-title, .global-issues-title {
+  font-family: 'Bebas Neue', cursive;
 }
+
+.state-issue-title {
+  font-size: 1.5em;
+  padding-top: 2.5vh;
+  padding-bottom: 2.5vh;
+}
+
+/* .issue-title {
+  font-size: 5em;
+} */
 
 /* comment section */
 details {
   border: 1px solid #aaa;
   border-radius: 4px;
   padding: .5em .5em 0;
+  cursor: pointer;
 }
 
 summary {
   font-weight: bold;
   margin: -.5em -.5em 0;
   padding: .5em;
+  background-color: rgba(128, 128, 128, 0.966);
 }
 
 details[open] {

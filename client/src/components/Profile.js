@@ -1,10 +1,10 @@
 import React, {useContext, useEffect} from "react"
 import IssueForm from "./IssueForm"
 import IssueList from "./IssueList"
-import {UserContext} from "../context/AuthProvider"
+import {AuthContext} from "../context/AuthProvider"
 
 function Profile() {
-    const { getUserIssues, addIssue, issues, user, _id, getComments} = useContext(UserContext)
+    const { getUserIssues, addIssue, issues, user, _id} = useContext(AuthContext)
 
 console.log(issues, "issuesProfile")
 
@@ -13,12 +13,15 @@ console.log(issues, "issuesProfile")
     }, [])
 
     return (
-        <div>
+        <div className="profile-container">
             <h1 className="username">Welcome @{user.username}!</h1>
-            <h3 className="add-issue-title">Add Issue</h3>
+            <h3 className="state-issue-title">State Your Issue</h3>
             <IssueForm submit={addIssue} btnText="Add Issue" _id={_id}/>
-            {/* <h3>Your Issues</h3> */}
-            <IssueList issues={issues}/>
+            <div className="issues-container">  
+                {/* <div className="empty-div"></div>   */}
+                <IssueList issues={issues}/>
+                {/* <div className="empty-div"></div>  */}
+            </div>
         </div>
     )
 }

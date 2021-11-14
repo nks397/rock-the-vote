@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react"
 import AuthForm from "./AuthForm.js"
-import { UserContext } from "../context/AuthProvider.js"
+import { AuthContext } from "../context/AuthProvider.js"
 
 const initInputs = { username: "", password: "" }
 
@@ -9,7 +9,7 @@ function Auth(){
   const [inputs, setInputs] = useState(initInputs)
   const [toggle, setToggle] = useState(false)
 
-  const { signup, login, errMsg, resetAuthErr } = useContext(UserContext)
+  const { signup, login, errMsg, resetAuthErr } = useContext(AuthContext)
  
   function handleChange(e){
     const {name, value} = e.target
@@ -36,7 +36,7 @@ function Auth(){
 
   return (
     <div className="auth-container">
-      <h1>Todo App</h1>
+      <h1>Rock The Vote</h1>
       { !toggle ?
         <>
           <AuthForm 
@@ -46,7 +46,7 @@ function Auth(){
             btnText="Sign up"
             errMsg={errMsg}
           />
-          <p onClick={toggleForm}>Already a member?</p>
+          <p className="authMsg" onClick={toggleForm}>Already a member?</p>
         </>
       :
         <>
@@ -57,7 +57,7 @@ function Auth(){
             btnText="Login"
             errMsg={errMsg}
           />
-          <p onClick={toggleForm}>Not a member?</p>
+          <p className="authMsg" onClick={toggleForm}>Not a member?</p>
         </>
       }
     </div>

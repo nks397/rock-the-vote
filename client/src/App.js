@@ -5,10 +5,10 @@ import Auth from './components/Auth'
 import ProtectedRoute from './components/ProtectedRoute'
 import Profile from "./components/Profile"
 import Public from './components/Public'
-import { UserContext } from './context/AuthProvider'
+import { AuthContext } from './context/AuthProvider'
 
 export default function App(){
-  const { token, logout} = useContext(UserContext)
+  const { token, logout} = useContext(AuthContext)
   
   return (
     <div className="app">

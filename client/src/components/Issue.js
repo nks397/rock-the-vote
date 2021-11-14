@@ -1,26 +1,27 @@
 import React, {useContext, useState} from "react"
-import { UserContext } from "../context/AuthProvider"
+import { AuthContext } from "../context/AuthProvider"
 import IssueForm from "./IssueForm"
 import Comments from "./Comments"
 import UpvoteDownvote from "./UpvoteDownvote"
 
 function Issue(props) {
     const {title, description, _id, comment} = props
-    const {deleteIssue, updateIssue} = useContext(UserContext)
+    let { upvote, downvote, username, issues, votedUsers, timeStamps} = props
+    const {deleteIssue, updateIssue} = useContext(AuthContext)
     const [editToggle, setEditToggle] = useState(false)
-    // const [commentToggle, setCommentToggle] = useState(false)
     
     return(
-        <div>
+        <div className="issues-container">
             <br/>   
-            <h2><b>{title}</b></h2>
-            <p>Description: {description}</p>
+            <h3 className="issue-title"><b>{title}</b></h3>
+            <p className="issue-description"><b>Description: {description}</b></p>
+            <p className="issue-timeStamp">{`submitted at ${timeStamps}`}</p>
             <br/>
-            <button onClick={()=>deleteIssue(_id)}>Delete</button>
-            <button onClick={()=> setEditToggle(!editToggle)}>{!editToggle ? "Edit" : "Cancel"}</button>
+            <button onClick={()=>deleteIssue(_id)}><i title="Delete" class="fas fa-trash"></i></button>
+            <button onClick={()=> setEditToggle(!editToggle)}>{!editToggle ? <i title="Edit" class="fas fa-edit"></i> : <i title="Cancel" class="fas fa-window-close"></i>}</button>
             <br/>
             {editToggle ? 
-                <div>
+                <div className="edit-form">
                     <IssueForm 
                         title={title} 
                         description={description} 
@@ -32,18 +33,15 @@ function Issue(props) {
                 null
             }
             <br/>
-            <UpvoteDownvote _id={_id} />
+            <UpvoteDownvote _id={_id} upvote={upvote} downvote={downvote} votedUsers={votedUsers} username={username} issues={issues} />
             <br/>
-            <details><summary>Comments</summary><Comments key={_id} comment={comment} _id={_id}/></details>
+            <details>
+                <summary>
+                    {`Comments(${comment.length})`}
+                </summary>
+                <Comments key={_id} comment={comment} _id={_id}/>
+            </details>
 
-            {/* <button onClick={()=> setCommentToggle(!commentToggle)}>Comments</button>
-            { commentToggle ? 
-                <div>
-                    {console.log(comment, "commentsss")}
-                    <Comments key={_id} comment={comment} _id={_id}/>
-                </div> : 
-                null 
-            }  */}
             <br/>
             <hr/>   
         </div>

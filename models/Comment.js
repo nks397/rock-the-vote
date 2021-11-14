@@ -16,10 +16,10 @@ const commentSchema = new Schema({
         ref: "User",
         // required: true
     },
-    // user: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'User',
-    // },
+    timeStamps: {
+        type: Date,
+        default: Date.now()
+    },
     username: {
         type: String,
         require: true

@@ -16,9 +16,6 @@ const issueSchema = new Schema({
     comment: {
         type: Array
     },
-    // upvotes: [],
-    // downvotes: [],
-   
     upvote: {
         type: Number,
         default: 0,
@@ -30,7 +27,12 @@ const issueSchema = new Schema({
     votedUsers: [{
         type: String
     }],
-    // voters: [],
+    timeStamps: {
+        type: Date,
+        default: Date.now()
+        // type: Number,
+        // default: new Date()
+    },
     user: {
         type: Schema.Types.ObjectId,
         ref: "User",

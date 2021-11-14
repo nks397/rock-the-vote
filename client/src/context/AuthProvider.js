@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import axios from "axios"
 
-export const UserContext = React.createContext()
+export const AuthContext = React.createContext()
 
 const userAxios = axios.create()
 
@@ -152,15 +152,6 @@ export default function AuthProvider(props) {
                 console.log(res.data, "getcommentByIssuedata")
             )
         .catch(err => console.log(err.response.data.errMsg))
-        // userAxios.get("/api/issue/user")
-        // .then(res => 
-        //     setUserState(prevState => ({
-        //         ...prevState,
-        //         // res.data is used for initial get request. It just grabs our data object?
-        //         issues: res.data
-        //     }))
-        // )
-        // .catch(err => console.log(err.response.data.errMsg))
     }
 
     function postComments(newComment, issueId) { 
@@ -177,60 +168,23 @@ export default function AuthProvider(props) {
         .catch(err => console.log(err))
     }
 
-    // function deleteComments(issueId) {
-    //     userAxios.delete(`/api/issue/${issueId}/deleteComment`)
-    //         .then(res => {
-    //             setUserState(prevState => ({
-    //                 ...prevState, 
-    //                 issues: [...prevState.issues.filter(issue => issue._id !== issueId ? {comment: issue.comment} : issue), res.data]
-    //             }))
-    //         })
-    // }
-
-    // votes
-
-    // Each issue’s comments and likes needs to be nested in the issue’s array.
-
-    // function upvoteHandler(issueId) {
-    //     userAxios.put(`/api/issue/upvotes/${issueId}`)
-    //     // .then(res => console.log(res.data, "res object"))
-    //     .then(res => 
-    //             setUserState(prevState => ({
-    //                 ...prevState, 
-    //                 issues: [...prevState.issues.map(issue => issue._id === issueId ? res.data : issue)]
-    //             }))
-    //         )
-    // }
-    
-    // function downvoteHandler(issueId) {
-    //     userAxios.put(`/api/issue/downvotes/${issueId}`)
-    //     .then(res => 
-    //         setUserState(prevState => ({
-    //             ...prevState,
-    //             issues: [...prevState.issues.map(issue => issue.id === issueId ? res.data : issue)]
-    //         }))
-    //     )
-    // } 
-
-    function voteHandler(vote, issueId){
+    function handleVote(vote, issueId){
         userAxios.put(`/api/issue/${vote}/${issueId}`)
-            .then(res => {
+            .then(res => 
                 setUserState(prevState => ({
                     ...prevState,
-                    issues: [res.data]
+                    issues: [...prevState.issues.map(issue => issue.id === issueId ? res.data : issue)]
                 }))
-            })
-            // .then(res => 
-            //     setUserState(prevState => ({
-            //         ...prevState,
-            //         issues: [...prevState.issues.map(issue => issue.id === issueId ? res.data : issue)]
-            //     }))
-            // )
+            )
             .catch(err => console.log(err.response.data.errMsg))
     }
 
+    // timeStamps
+    // themeChanger
+    // function
+
     return (
-        <UserContext.Provider 
+        <AuthContext.Provider 
             value={{
                 ...userState,
                 signup,
@@ -245,14 +199,13 @@ export default function AuthProvider(props) {
                 getComments,
                 postComments,
                 // deleteComments,
-                voteHandler,
-                // upvoteHandler,
-                // upvoteCounter,
-                // downvoteHandler,
-                // upvoteFunctionality
-                // downvoteCounter
+                handleVote,
+            //    timeStamps,
+            //    month,
+            //    date, 
+            //    year
             }}>
             {props.children}
-        </UserContext.Provider>
+        </AuthContext.Provider>
     )
 }
