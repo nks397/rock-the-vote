@@ -6,13 +6,12 @@ const Comment = require("../models/Comment.js")
 // Get All
 issueRouter.get("/", (req, res, next) => {
     Issue.find((err, issues) =>{
-      if(err){
+        if(err){
         res.status(500)
         return next(err)
     }
         return res.status(200).send(issues)  
     })
-    
 })
 
 // Get User Issues

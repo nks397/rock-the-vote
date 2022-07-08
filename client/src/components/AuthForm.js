@@ -1,6 +1,6 @@
 import React from "react"
 
-function authForm(props) {
+function AuthForm(props) {
     const {
         handleChange,
         handleSubmit,
@@ -22,7 +22,7 @@ function authForm(props) {
                 placeholder="Username"
             />
             <input 
-                type="text" 
+                type="password"
                 value={password} 
                 name="password" 
                 onChange={handleChange} 
@@ -33,4 +33,4 @@ function authForm(props) {
     )
 }
 
-export default authForm
+export default AuthForm

@@ -11,7 +11,7 @@ app.use(morgan("dev"))
 
 // mongoose connect
 mongoose.connect(
-    "mongodb+srv://localhost:5000@cluster0.tvlbm.mongodb.net/rock-the-vote-db?retryWrites=true&w=majority",
+      process.env.MONGO_URL,
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -21,14 +21,10 @@ mongoose.connect(
       () => console.log('Connected to the DB')
 )
 
-
 // routes
 app.use("/auth", require('./routes/authRouter.js'))
 app.use("/api", expressJwt({ secret: process.env.SECRET, algorithms: ['HS256'] }))
 app.use("/api/issue", require("./routes/issueRouter.js"))
-// app.use("/api/comment", require("./routes/commentRouter.js"))
-// app.use('/api/issue/:issueId/comments', require('./routes/commentRouter.js'))
-// app.use("/api/comment", require("./routes/commentRouter.js"))
 
 app.use((err, req, res, next) => {
   console.log(err)

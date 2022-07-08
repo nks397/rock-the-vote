@@ -30,8 +30,6 @@ const issueSchema = new Schema({
     timeStamps: {
         type: Date,
         default: Date.now()
-        // type: Number,
-        // default: new Date()
     },
     user: {
         type: Schema.Types.ObjectId,

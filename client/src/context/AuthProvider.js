@@ -13,12 +13,10 @@ userAxios.interceptors.request.use(config => {
 })
 
 export default function AuthProvider(props) {
-    // inputs
     const initState = {
         user: JSON.parse(localStorage.getItem("user")) || {},
         token: localStorage.getItem("token") || "",
         issues: [],
-        // comments: [], 
         errMsg: ""
     }
     const [userState, setUserState] = useState(initState)
@@ -35,7 +33,6 @@ export default function AuthProvider(props) {
                 ...prevUserState, user, token
             }))
         })
-        // dir console logs in object so we can look at its key: value pairs
         .catch(err => handleAuthErr(err.response.data.errMsg))
     }
 
@@ -67,7 +64,6 @@ export default function AuthProvider(props) {
     } 
     
     function handleAuthErr(errMsg) {
-        // update userState
         setUserState(prevState => ({
             ...prevState,
             errMsg
@@ -94,7 +90,6 @@ export default function AuthProvider(props) {
     
     // Get User Issues  
    function getUserIssues() {
-        // issue with endpoint
         userAxios.get("/api/issue/user")
         .then(res => 
             setUserState(prevState => ({
@@ -108,7 +103,6 @@ export default function AuthProvider(props) {
     // // adding issues
     function addIssue(newIssue) {
         userAxios.post("/api/issue", newIssue)
-        // .then(res => console.log(res))
         .then(res => {
             setUserState(prevState => ({
                 ...prevState, issues: [...prevState.issues, res.data]
@@ -130,9 +124,6 @@ export default function AuthProvider(props) {
 
     function updateIssue(updates, issueId) {
         userAxios.put(`api/issue/${issueId}`, updates)
-        // .then(res => {
-        //     setUserState(prevState => prevState.issues.map(issues => issues._id !== issueId ? issues : res.data))
-        // })
         .then(res => setUserState(prevState => ({
             ...prevState,
             issues: prevState.issues.map(issue => issue._id !== issueId ? issue : res.data)
@@ -147,7 +138,6 @@ export default function AuthProvider(props) {
     // get all comments by issue
     function getComments(issueId) {
         userAxios.post(`/api/issue/${issueId}/getComment`)
-        // .then(res => console.log(res, "comments data"))
         .then(res => 
                 console.log(res.data, "getcommentByIssuedata")
             )
@@ -156,16 +146,13 @@ export default function AuthProvider(props) {
 
     function postComments(newComment, issueId) { 
         userAxios.post(`/api/issue/${issueId}/saveComment`, newComment)
-        // .then(res => console.log(res, "Data for Posted Comments"))
         .then(res => {
             setUserState(prevState => ({
                 ...prevState, 
                 issues: [...prevState.issues.map(issue => issue._id === issueId ? res.data : issue)]
             }))
         })
-        // .catch(err => console.log(err.response.data.errMsg))
-        
-        .catch(err => console.log(err))
+        .catch(err => console.log(err.response.data.errMsg))
     }
 
     function handleVote(vote, issueId){
@@ -178,10 +165,6 @@ export default function AuthProvider(props) {
             )
             .catch(err => console.log(err.response.data.errMsg))
     }
-
-    // timeStamps
-    // themeChanger
-    // function
 
     return (
         <AuthContext.Provider 
@@ -198,12 +181,7 @@ export default function AuthProvider(props) {
                 getAllIssues,
                 getComments,
                 postComments,
-                // deleteComments,
                 handleVote,
-            //    timeStamps,
-            //    month,
-            //    date, 
-            //    year
             }}>
             {props.children}
         </AuthContext.Provider>

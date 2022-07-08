@@ -5,17 +5,28 @@ import Comments from "./Comments"
 import UpvoteDownvote from "./UpvoteDownvote"
 
 function Issue(props) {
-    const {title, description, _id, comment} = props
-    let { upvote, downvote, username, issues, votedUsers, timeStamps} = props
+    const {
+        title, 
+        description, 
+        _id, 
+        comment,
+        upvote,
+        downvote,
+        username,
+        issues,
+        votedUsers,
+        timeStamps
+    } = props
+
     const {deleteIssue, updateIssue} = useContext(AuthContext)
     const [editToggle, setEditToggle] = useState(false)
     
     return(
         <div className="issues-container">
             <br/>   
-            <h3 className="issue-title"><b>{title}</b></h3>
-            <p className="issue-description"><b>Description: {description}</b></p>
-            <p className="issue-timeStamp">{`submitted at ${timeStamps}`}</p>
+            <h3 className="issue-title"><b>{`Title: ${title}`}</b></h3>
+            <p className="description"><b>{`Description: ${description}`}</b></p>
+            <p className="submitted-info">{`submitted ${new Date(timeStamps).toDateString()}`}</p>
             <br/>
             <button onClick={()=>deleteIssue(_id)}><i title="Delete" class="fas fa-trash"></i></button>
             <button onClick={()=> setEditToggle(!editToggle)}>{!editToggle ? <i title="Edit" class="fas fa-edit"></i> : <i title="Cancel" class="fas fa-window-close"></i>}</button>

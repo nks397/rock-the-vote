@@ -1,7 +1,6 @@
 import React from "react"
 import PublicIssues from "./PublicIssues"
 
-
 function PublicIssuesList(props) {
     const {issues} = props
     return (

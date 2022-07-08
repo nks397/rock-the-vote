@@ -12,14 +12,11 @@ authRouter.post("/signup", (req, res, next) => {
         }
         if(user){
             console.log(user, "user")
-            // this status means forbidden
             res.status(403)
             return next(new Error("That username is already taken."))
         }
         // putting req.body inside the parameter is what allows us to get back a user object with the username and password
         const newUser = new User(req.body)
-        // console.log(new User(), "new user")
-        // console.log(new User(req.body), "new user w/req.body")
 
         // saves document to database
         newUser.save((err, savedUser) => {
@@ -28,10 +25,6 @@ authRouter.post("/signup", (req, res, next) => {
                 return next(err)
             }
             // payload, secret
-            // savedUser.toObject is in the form of an object.
-
-            // const token = jwt.sign(savedUser.toObject(), process.env.SECRET)
-            // return res.status(201).send({token, user: savedUser})
             const token = jwt.sign(savedUser.withoutPassword(), process.env.SECRET)
             return res.status(201).send({token, user: savedUser.withoutPassword()})
         })

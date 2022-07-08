@@ -9,12 +9,10 @@ const commentSchema = new Schema({
     writer: {
         type: Schema.Types.ObjectId,
         ref: "User",
-        // required: true
     },
     responseTo: {
         type: Schema.Types.ObjectId,
         ref: "User",
-        // required: true
     },
     timeStamps: {
         type: Date,
