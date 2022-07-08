@@ -11,11 +11,10 @@ authRouter.post("/signup", (req, res, next) => {
             return next(err)
         }
         if(user){
-            console.log(user, "user")
             res.status(403)
             return next(new Error("That username is already taken."))
         }
-        // putting req.body inside the parameter is what allows us to get back a user object with the username and password
+        
         const newUser = new User(req.body)
 
         // saves document to database

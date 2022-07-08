@@ -26,25 +26,12 @@ issueRouter.get("/user", (req, res, next) => {
     
 })
 
-// Get By IssueId
-// issueRouter.get('/:issueId', (req, res, next) => {
-//     Issue.findById(req.params.issueId, (err, issue) => {
-//       if (err) {
-//         res.status(500)
-//         return next(err)
-//       } else if (!issue) {
-//         res.status(404)
-//         return next(new Error('No post item has been found.'))
-//       }
-//       return res.send(issue)
-//     })
-// })
-
 // Post
 issueRouter.post("/", (req, res, next) => {
     req.body.user = req.user._id
     req.body.username = req.user.username
     req.body.timestamps = req.user.timestamps
+
     const newIssue = new Issue(req.body)
     newIssue.save((err, savedIssue) => {
         if(err){
@@ -91,6 +78,7 @@ issueRouter.post("/:issueId/saveComment", (req, res, next) => {
     const issueId = req.params.issueId
     req.body.username = req.user.username
     req.body.timestamps = req.user.timestamps
+
     const newSavedComment = new Comment(req.body)
 
     Issue.findById({ _id: issueId}, (err, issue) => {
@@ -108,7 +96,6 @@ issueRouter.post("/:issueId/saveComment", (req, res, next) => {
 
 // get all comments for a specific issue
 issueRouter.get("/:issueId/getComment", (req, res, next) => {
-    // req.body.user = req.user._id
     const issueId = req.params.issueId
     req.body.username = req.user.username
 
@@ -117,13 +104,11 @@ issueRouter.get("/:issueId/getComment", (req, res, next) => {
             res.status(500)
             return next(err)
         }
-        // const commentsByIssueId = issue.comment
         return res.status(200).send(issue.comment)
     })
 })
 
 // upvote issue
-// let upvote = req.body.upvotes
 issueRouter.put("/upvotes/:issueId",(req, res, next) => {
     Issue.findByIdAndUpdate({ _id: req.params.issueId },
         { $inc: {upvote: 1 },

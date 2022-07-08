@@ -3,7 +3,7 @@ import { AuthContext } from "../context/AuthProvider"
 
 function CommentForm(props) {
     const [comment, setComment] = useState("")
-    const {user, issues, postComments} = useContext(AuthContext)
+    const {user, postComments} = useContext(AuthContext)
     const {_id} = props
 
     function handleChange(e){

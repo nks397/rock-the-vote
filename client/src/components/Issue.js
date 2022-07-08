@@ -52,7 +52,6 @@ function Issue(props) {
                 </summary>
                 <Comments key={_id} comment={comment} _id={_id}/>
             </details>
-
             <br/>
             <hr/>   
         </div>

@@ -1,10 +1,10 @@
 import React, {useContext, useEffect} from "react"
 import IssueForm from "./IssueForm"
-import IssueList from "./IssueList"
+import IssuesList from "./IssuesList"
 import {AuthContext} from "../context/AuthProvider"
 
 function Profile() {
-    const { getUserIssues, addIssue, issues, user, _id} = useContext(AuthContext)
+    const { getUserIssues, addIssue, user, _id} = useContext(AuthContext)
 
     useEffect(() => {
         getUserIssues()
@@ -16,7 +16,7 @@ function Profile() {
             <h3 className="state-issue-title">State Your Issue</h3>
             <IssueForm submit={addIssue} btnText="Add Issue" _id={_id}/>
             <div className="issues-container">  
-                <IssueList issues={issues}/>
+                <IssuesList />
             </div>
         </div>
     )

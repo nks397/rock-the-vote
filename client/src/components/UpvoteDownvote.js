@@ -7,11 +7,8 @@ function UpvoteDownvote(props) {
     const { handleVote, user} = useContext(AuthContext)
     let {_id, upvote, downvote, votedUsers} = props
 
-    console.log(downvote, "downvoteCount")
-    console.log(upvote, "upvoteCount")
-
-
     function userVoting(vote, issueId, userId){
+        // voted user is not found true
         const castedVote = votedUsers.indexOf(userId) !== -1
         castedVote ?
         alert("Your vote has already been submitted.")  

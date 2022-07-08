@@ -27,7 +27,6 @@ app.use("/api", expressJwt({ secret: process.env.SECRET, algorithms: ['HS256'] }
 app.use("/api/issue", require("./routes/issueRouter.js"))
 
 app.use((err, req, res, next) => {
-  console.log(err)
   if(err.name === "UnauthorizedError"){
     res.status(err.status)
   }
